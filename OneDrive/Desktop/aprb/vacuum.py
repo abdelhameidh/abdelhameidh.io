@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+from IPython.display import HTML
 
 # Define the environment
 environment = np.array([[0, 1, 0], [1, 0, 1], [0, 1, 0]])
@@ -102,5 +103,8 @@ print(q_table)
 # Create the animation
 ani = animation.FuncAnimation(fig, update_environment, frames=len(agent_positions), interval=500)
 
+# Convert the animation to HTML
+html = ani.to_html5_video()
+
 # Display the animation
-plt.show()
+HTML(html)
