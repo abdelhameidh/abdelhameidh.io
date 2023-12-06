@@ -12,6 +12,19 @@ discount_factor = 0.9
 epsilon = 0.1
 num_episodes = 1000
 
+# Function to display the environment and vacuum cleaner position
+def display_environment(state):
+    symbols = {0: ' ', 1: 'D'}
+    for i in range(3):
+        row = ''
+        for j in range(3):
+            if i == state and environment[i][j] == 1:
+                row += 'V'
+            else:
+                row += symbols[environment[i][j]]
+        print(row)
+    print()
+
 # Q-learning algorithm
 for episode in range(num_episodes):
     state = np.random.randint(0, 3)
@@ -35,7 +48,7 @@ for episode in range(num_episodes):
         
         # Print the current state of the environment
         print("Episode:", episode+1)
-        print("State:", state)
+        display_environment(state)
         print("Action:", action)
         print("Next State:", next_state)
         print("Reward:", reward)
