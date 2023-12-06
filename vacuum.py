@@ -32,6 +32,16 @@ for episode in range(num_episodes):
         
         if np.sum(environment) == 0:
             done = True
+        
+        # Print the current state of the environment
+        print("Episode:", episode+1)
+        print("State:", state)
+        print("Action:", action)
+        print("Next State:", next_state)
+        print("Reward:", reward)
+        print("Q-table:")
+        print(q_table)
+        print("--------------------")
 
 # Print the learned Q-table
 print("Learned Q-table:")
