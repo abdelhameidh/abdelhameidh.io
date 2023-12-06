@@ -26,26 +26,25 @@ def display_environment(state):
         print(row)
     print()
 
+# Create the gym environment
+env = gym.make('FrozenLake-v0')
+
 # Q-learning algorithm
 for episode in range(num_episodes):
-    state = np.random.randint(0, 3)
+    state = env.reset()
     done = False
     
     while not done:
         if np.random.uniform(0, 1) < epsilon:
-            action = np.random.randint(0, 3)
+            action = env.action_space.sample()
         else:
             action = np.argmax(q_table[state])
         
-        next_state = np.random.choice(np.where(environment[state] == 1)[0])
-        reward = 1 if environment[state][next_state] == 1 else -1
+        next_state, reward, done, _ = env.step(action)
         
         q_table[state][action] = (1 - learning_rate) * q_table[state][action] + learning_rate * (reward + discount_factor * np.max(q_table[next_state]))
         
         state = next_state
-        
-        if np.sum(environment) == 0:
-            done = True
         
         # Print the current state of the environment
         print("Episode:", episode+1)
