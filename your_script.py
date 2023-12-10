@@ -1,6 +1,9 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score, classification_report
 
 # Read the CSV file
 data = pd.read_csv('OnlineNewsPopularity.csv')
@@ -13,23 +16,20 @@ target = data['shares']
 scaler = StandardScaler()
 scaled_features = scaler.fit_transform(features)
 
-# Detect outliers in the scaled features
-outliers = []  # List to store the indices of outliers
-for i in range(scaled_features.shape[1]):
-    # Calculate the z-score for each feature
-    z_scores = (scaled_features[:, i] - scaled_features[:, i].mean()) / scaled_features[:, i].std()
-    # Find the indices of outliers (threshold = 3)
-    outlier_indices = np.where(np.abs(z_scores) > 3)[0]
-    # Add the outlier indices to the list
-    outliers.extend(outlier_indices)
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(scaled_features, target, test_size=0.2, random_state=42)
 
-# Plot the outliers using a scatter plot
-plt.scatter(features.iloc[outliers]['n_tokens_content'], features.iloc[outliers]['n_unique_tokens'], color='red', label='Outliers')
-plt.scatter(features['n_tokens_content'], features['n_unique_tokens'], color='blue', label='Data Points')
-plt.xlabel('n_tokens_content')
-plt.ylabel('n_unique_tokens')
-plt.title('Outliers in Features')
-plt.legend()
+# Build the SVM classifier
+svm = SVC()
+svm.fit(X_train, y_train)
 
-# Show the plot
-plt.show()
+# Make predictions on the test set
+y_pred = svm.predict(X_test)
+
+# Evaluate the model
+accuracy = accuracy_score(y_test, y_pred)
+report = classification_report(y_test, y_pred)
+
+print("Accuracy:", accuracy)
+print("Classification Report:")
+print(report)
