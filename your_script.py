@@ -1,18 +1,15 @@
 import pandas as pd
-import matplotlib.pyplot as plt
 
 # Read the CSV file
-data = pd.read_csv('OnlineNewsPopularity.csv')
+data = pd.read_csv('voice.csv')
 
 # Split into features and target
-features = data.drop(['url', 'timedelta', 'shares'], axis=1)
-target = data['shares']
+features = data.drop('label', axis=1)
+target = data['label']
 
 # Perform data preprocessing
 # ... your preprocessing code goes here ...
 
-# Plot a graph for outliers
-# ... your code to identify and plot outliers goes here ...
-
-# Show the plot
-plt.show()
+# Split the data into X and y
+X = features
+y = target
