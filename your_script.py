@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import StackingClassifier
 from sklearn.metrics import accuracy_score, classification_report
 
 # Read the CSV file
@@ -21,47 +22,25 @@ scaled_features = scaler.fit_transform(features)
 # Split the data into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(scaled_features, target, test_size=0.2, random_state=42)
 
-# Build the SVM classifier
+# Build the individual classifiers
 svm = SVC()
-svm.fit(X_train, y_train)
-
-# Make predictions on the test set using SVM
-y_pred_svm = svm.predict(X_test)
-
-# Build the logistic regression classifier
 logreg = LogisticRegression()
-logreg.fit(X_train, y_train)
-
-# Make predictions on the test set using logistic regression
-y_pred_logreg = logreg.predict(X_test)
-
-# Build the decision tree classifier
 dt = DecisionTreeClassifier()
-dt.fit(X_train, y_train)
 
-# Make predictions on the test set using decision tree
-y_pred_dt = dt.predict(X_test)
+# Build the stacking ensemble model
+estimators = [('svm', svm), ('logreg', logreg), ('dt', dt)]
+stacking_model = StackingClassifier(estimators=estimators, final_estimator=LogisticRegression())
 
-# Evaluate the SVM model
-accuracy_svm = accuracy_score(y_test, y_pred_svm)
-report_svm = classification_report(y_test, y_pred_svm)
+# Fit the stacking model on the training data
+stacking_model.fit(X_train, y_train)
 
-# Evaluate the logistic regression model
-accuracy_logreg = accuracy_score(y_test, y_pred_logreg)
-report_logreg = classification_report(y_test, y_pred_logreg)
+# Make predictions on the test set using the stacking model
+y_pred_stacking = stacking_model.predict(X_test)
 
-# Evaluate the decision tree model
-accuracy_dt = accuracy_score(y_test, y_pred_dt)
-report_dt = classification_report(y_test, y_pred_dt)
+# Evaluate the stacking model
+accuracy_stacking = accuracy_score(y_test, y_pred_stacking)
+report_stacking = classification_report(y_test, y_pred_stacking)
 
-print("SVM Accuracy:", accuracy_svm)
-print("SVM Classification Report:")
-print(report_svm)
-
-print("Logistic Regression Accuracy:", accuracy_logreg)
-print("Logistic Regression Classification Report:")
-print(report_logreg)
-
-print("Decision Tree Accuracy:", accuracy_dt)
-print("Decision Tree Classification Report:")
-print(report_dt)
+print("Stacking Accuracy:", accuracy_stacking)
+print("Stacking Classification Report:")
+print(report_stacking)
