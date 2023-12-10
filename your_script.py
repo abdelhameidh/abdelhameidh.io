@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
 
 # Read the CSV file
 data = pd.read_csv('OnlineNewsPopularity.csv')
@@ -8,16 +9,17 @@ data = pd.read_csv('OnlineNewsPopularity.csv')
 features = data.drop(['url', 'timedelta', 'shares'], axis=1)
 target = data['shares']
 
-# Perform data preprocessing
-# ... your preprocessing code goes here ...
+# Perform feature scaling using standardization
+scaler = StandardScaler()
+scaled_features = scaler.fit_transform(features)
 
-# Detect outliers in the features
+# Detect outliers in the scaled features
 outliers = []  # List to store the indices of outliers
-for column in features.columns:
+for i in range(scaled_features.shape[1]):
     # Calculate the z-score for each feature
-    z_scores = (features[column] - features[column].mean()) / features[column].std()
+    z_scores = (scaled_features[:, i] - scaled_features[:, i].mean()) / scaled_features[:, i].std()
     # Find the indices of outliers (threshold = 3)
-    outlier_indices = z_scores[abs(z_scores) > 3].index.tolist()
+    outlier_indices = np.where(np.abs(z_scores) > 3)[0]
     # Add the outlier indices to the list
     outliers.extend(outlier_indices)
 
