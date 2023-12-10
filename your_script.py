@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, classification_report
 
 # Read the CSV file
@@ -23,13 +24,28 @@ X_train, X_test, y_train, y_test = train_test_split(scaled_features, target, tes
 svm = SVC()
 svm.fit(X_train, y_train)
 
-# Make predictions on the test set
-y_pred = svm.predict(X_test)
+# Make predictions on the test set using SVM
+y_pred_svm = svm.predict(X_test)
 
-# Evaluate the model
-accuracy = accuracy_score(y_test, y_pred)
-report = classification_report(y_test, y_pred)
+# Build the logistic regression classifier
+logreg = LogisticRegression()
+logreg.fit(X_train, y_train)
 
-print("Accuracy:", accuracy)
-print("Classification Report:")
-print(report)
+# Make predictions on the test set using logistic regression
+y_pred_logreg = logreg.predict(X_test)
+
+# Evaluate the SVM model
+accuracy_svm = accuracy_score(y_test, y_pred_svm)
+report_svm = classification_report(y_test, y_pred_svm)
+
+# Evaluate the logistic regression model
+accuracy_logreg = accuracy_score(y_test, y_pred_logreg)
+report_logreg = classification_report(y_test, y_pred_logreg)
+
+print("SVM Accuracy:", accuracy_svm)
+print("SVM Classification Report:")
+print(report_svm)
+
+print("Logistic Regression Accuracy:", accuracy_logreg)
+print("Logistic Regression Classification Report:")
+print(report_logreg)
