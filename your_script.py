@@ -4,6 +4,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score, classification_report
 
 # Read the CSV file
@@ -34,6 +35,13 @@ logreg.fit(X_train, y_train)
 # Make predictions on the test set using logistic regression
 y_pred_logreg = logreg.predict(X_test)
 
+# Build the decision tree classifier
+dt = DecisionTreeClassifier()
+dt.fit(X_train, y_train)
+
+# Make predictions on the test set using decision tree
+y_pred_dt = dt.predict(X_test)
+
 # Evaluate the SVM model
 accuracy_svm = accuracy_score(y_test, y_pred_svm)
 report_svm = classification_report(y_test, y_pred_svm)
@@ -42,6 +50,10 @@ report_svm = classification_report(y_test, y_pred_svm)
 accuracy_logreg = accuracy_score(y_test, y_pred_logreg)
 report_logreg = classification_report(y_test, y_pred_logreg)
 
+# Evaluate the decision tree model
+accuracy_dt = accuracy_score(y_test, y_pred_dt)
+report_dt = classification_report(y_test, y_pred_dt)
+
 print("SVM Accuracy:", accuracy_svm)
 print("SVM Classification Report:")
 print(report_svm)
@@ -49,3 +61,7 @@ print(report_svm)
 print("Logistic Regression Accuracy:", accuracy_logreg)
 print("Logistic Regression Classification Report:")
 print(report_logreg)
+
+print("Decision Tree Accuracy:", accuracy_dt)
+print("Decision Tree Classification Report:")
+print(report_dt)
