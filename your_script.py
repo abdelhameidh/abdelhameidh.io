@@ -33,7 +33,7 @@ scaled_features = scaler.fit_transform(features)
 X_train, X_test, y_train, y_test = train_test_split(scaled_features, target, test_size=0.2, random_state=42)
 
 # Build the individual classifiers
-svm = SVC()
+svm = SVC(kernel='linear', gamma='auto', C=2)
 logreg = LogisticRegression()
 dt = DecisionTreeClassifier()
 
