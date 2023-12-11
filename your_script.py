@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
@@ -10,6 +11,15 @@ from sklearn.metrics import accuracy_score, classification_report
 
 # Read the CSV file
 data = pd.read_csv('OnlineNewsPopularity.csv')
+
+# Calculate the correlation matrix
+corr_matrix = data.corr()
+
+# Display the heatmap
+plt.figure(figsize=(12, 10))
+sns.heatmap(corr_matrix, annot=True, cmap='coolwarm')
+plt.title('Correlation Heatmap')
+plt.show()
 
 # Split into features and target
 features = data.drop(['url', 'timedelta', 'shares'], axis=1)
