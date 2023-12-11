@@ -5,7 +5,11 @@ from sklearn.preprocessing import StandardScaler
 # Read the CSV file
 data = pd.read_csv('cirrhosis.csv')
 
-# Check for missing values and replace with mean
+# Check for missing values
+null_values = data.isnull().sum()
+print("Null values:\n", null_values)
+
+# Replace missing values with mean
 data = data.fillna(data.mean())
 
 # Split into features and target
