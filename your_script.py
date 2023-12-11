@@ -12,6 +12,14 @@ print("Null values:\n", null_values)
 # Replace missing values with mean
 data = data.fillna(data.mean())
 
+# Calculate correlation between features and target
+correlation = data.drop('status', axis=1).corrwith(data['status']).abs()
+
+# Drop columns with low correlation
+threshold = 0.1
+unnecessary_columns = correlation[correlation < threshold].index
+data = data.drop(unnecessary_columns, axis=1)
+
 # Split into features and target
 features = data.drop('status', axis=1)
 target = data['status']
