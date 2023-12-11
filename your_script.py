@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.preprocessing import StandardScaler
@@ -20,6 +21,10 @@ plt.figure(figsize=(12, 10))
 sns.heatmap(corr_matrix, annot=True, cmap='coolwarm')
 plt.title('Correlation Heatmap')
 plt.show()
+
+# Remove outliers using Z-score method
+z_scores = np.abs(stats.zscore(data))
+data = data[(z_scores < 3).all(axis=1)]
 
 # Split into features and target
 features = data.drop(['url', 'timedelta', 'shares'], axis=1)
