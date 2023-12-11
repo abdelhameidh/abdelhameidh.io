@@ -37,6 +37,15 @@ svm = SVC()
 logreg = LogisticRegression()
 dt = DecisionTreeClassifier()
 
+# Train SVM model
+svm.fit(X_train, y_train)
+
+# Train logistic regression model
+logreg.fit(X_train, y_train)
+
+# Train decision tree model
+dt.fit(X_train, y_train)
+
 # Build the stacking ensemble model
 estimators = [('svm', svm), ('logreg', logreg), ('dt', dt)]
 stacking_model = StackingClassifier(estimators=estimators, final_estimator=LogisticRegression())
