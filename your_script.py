@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from scipy import stats
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
@@ -25,6 +26,12 @@ plt.show()
 # Remove outliers using Z-score method
 z_scores = np.abs(stats.zscore(data))
 data = data[(z_scores < 3).all(axis=1)]
+
+# Display a graph for the outliers
+plt.figure(figsize=(10, 6))
+sns.boxplot(data=data)
+plt.title('Outliers')
+plt.show()
 
 # Split into features and target
 features = data.drop(['url', 'timedelta', 'shares'], axis=1)
