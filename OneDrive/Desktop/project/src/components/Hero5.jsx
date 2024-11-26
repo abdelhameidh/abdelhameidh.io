@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import axios from "axios";
-import Section from "./section";
+import Section from "./Section";
 import Button from "./Button";
 import { ScrollParallax } from "react-just-parallax";
 import { curve, heroBackground, robot } from "../assets";
