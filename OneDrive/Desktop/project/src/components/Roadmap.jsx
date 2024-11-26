@@ -1,6 +1,6 @@
 import { roadmap } from "../constants"
 import Heading from "./Heading"
-import Section from "./section"
+import Section from "./Section"
 import Tagline from "./Tagline";
 import { check2, grid, loading1 } from "../assets";
 import { Gradient } from "./design/Roadmap";
